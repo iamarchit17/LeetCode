@@ -1,3 +1,4 @@
+/*
 class Solution {
     public int trap(int[] height) {
         int[] right = new int[height.length];
@@ -46,3 +47,42 @@ class Solution {
         }
     }
 }
+*/
+
+class Solution {
+    public int trap(int[] height) {
+        int[] right = new int[height.length];
+        int[] left = new int[height.length];
+        
+        int maxL = height[0];
+        left[0] = -1;
+        for(int i = 1; i < height.length; i++){
+            if(height[i] < maxL) left[i] = maxL;
+            else{
+                left[i] = -1;
+                maxL = height[i];
+            }
+        }
+        
+        int maxR = height[height.length - 1];
+        right[right.length - 1] = -1;
+        for(int i = height.length - 2; i >= 0; i--){
+            if(height[i] < maxR) right[i] = maxR;
+            else{
+                right[i] = -1;
+                maxR = height[i];
+            }
+        }
+        
+        int trapped = 0;
+        for(int i = 0; i < height.length; i++){
+            if(right[i] == -1 || left[i] == -1) continue;
+            else{
+                trapped += (Math.min(right[i], left[i]) - height[i]);
+            }
+        }
+        
+        return trapped;
+    }
+}
+
