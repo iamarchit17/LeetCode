@@ -1,4 +1,5 @@
 /*
+//Using Stack
 class Solution {
     public int trap(int[] height) {
         int[] right = new int[height.length];
@@ -49,6 +50,8 @@ class Solution {
 }
 */
 
+/*
+//Using two arrays
 class Solution {
     public int trap(int[] height) {
         int[] right = new int[height.length];
@@ -80,6 +83,42 @@ class Solution {
             else{
                 trapped += (Math.min(right[i], left[i]) - height[i]);
             }
+        }
+        
+        return trapped;
+    }
+}
+*/
+
+class Solution {
+    public int trap(int[] height) {
+        int[] max = new int[height.length];
+        
+        int maxL = height[0];
+        max[0] = -1;
+        for(int i = 1; i < height.length; i++){
+            if(height[i] < maxL) max[i] = maxL;
+            else{
+                max[i] = -1;
+                maxL = height[i];
+            }
+        }
+        
+        int maxR = height[height.length - 1];
+        max[max.length - 1] = -1;
+        for(int i = height.length - 2; i >= 0; i--){
+            if(height[i] < maxR){
+                max[i] = Math.min(max[i], maxR);
+            } else{
+                max[i] = Math.min(-1, max[i]);
+                maxR = height[i];
+            }
+        }
+        
+        int trapped = 0;
+        for(int i = 0; i < height.length; i++){
+            if(max[i] == -1) continue;
+            else trapped += (max[i] - height[i]);
         }
         
         return trapped;
