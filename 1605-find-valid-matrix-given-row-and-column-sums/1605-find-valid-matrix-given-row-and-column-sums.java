@@ -4,10 +4,9 @@ class Solution {
         
         for(int i = 0; i < rowSum.length; i++){
             for(int j = 0; j < colSum.length; j++){
-                int e = Math.min(rowSum[i], colSum[j]);
-                matrix[i][j] = e;
-                rowSum[i] -= e;
-                colSum[j] -= e;
+                matrix[i][j] = Math.min(rowSum[i], colSum[j]);
+                rowSum[i] -= matrix[i][j];
+                colSum[j] -= matrix[i][j];
             }
         }
         
