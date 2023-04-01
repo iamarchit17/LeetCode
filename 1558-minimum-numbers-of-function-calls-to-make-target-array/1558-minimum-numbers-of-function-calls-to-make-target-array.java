@@ -12,7 +12,7 @@ class Solution {
                     temp--;
                 } else{
                     arr[1]++;
-                    temp /= 2;
+                    temp = temp >> 1;
                 }
             }
             
