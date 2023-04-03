@@ -6,19 +6,13 @@ class Solution {
             else map.put(arr[i], 1);
         }
         
-        PriorityQueue<Map.Entry<Integer, Integer>> pq = new PriorityQueue<>(arr.length, (l1, l2) -> l1.getValue() - l2.getValue());
+        PriorityQueue<Integer> pq = new PriorityQueue<>(arr.length);
         for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-            pq.add(entry);
+            pq.add(entry.getValue());
         }
         
-        while(k > 0 && pq.size() > 0){
-            int x = pq.peek().getValue();
-            if(x <= k){
-                k -= x;
-                pq.poll();
-            } else k = 0; //don't need to change frequency of peek element, as we will require size only and size will not change
-        }
-        
-        return pq.size();
+        while(k > 0) k -= pq.poll(); //since k can be maximum equal to arr.length, we don't need to check if pq will be empty or not
+            
+        return k < 0 ? pq.size() + 1 : pq.size();
     }
 }
