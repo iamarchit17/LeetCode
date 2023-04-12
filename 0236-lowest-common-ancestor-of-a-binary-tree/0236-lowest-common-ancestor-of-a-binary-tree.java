@@ -15,14 +15,11 @@ class Solution {
         rootToNode(root, p, listP);
         rootToNode(root, q, listQ);
         
-        HashSet<TreeNode> set = new HashSet<>();
-        for(TreeNode i : listP) set.add(i);
-        
-        for(int i = listQ.size() - 1; i >= 0; i--){
-            if(set.contains(listQ.get(i))) return listQ.get(i);
+        for(int i = 1; i < listP.size() && i < listQ.size(); i++){
+            if(listP.get(i).val != listQ.get(i).val) return listP.get(i - 1);
         }
-        
-        return null;
+          
+        return listP.size() > listQ.size() ? listQ.get(listQ.size() - 1) : listP.get(listP.size() - 1);
     }
     
     public boolean rootToNode(TreeNode root, TreeNode p, ArrayList<TreeNode> list){
