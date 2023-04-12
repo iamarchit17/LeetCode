@@ -120,6 +120,9 @@ class Node
         left = right = null;
     }
 }*/
+
+//using level order traversal
+/*
 class Tree{
     ArrayList<Integer> leftView(Node root){
         ArrayList<Integer> list = new ArrayList<Integer>();
@@ -140,5 +143,25 @@ class Tree{
         }
         
         return list;
+    }
+}
+*/
+
+//using preorder traversal
+class Tree{
+    ArrayList<Integer> leftView(Node root) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        if(root == null) return list;
+        preorder(root, list, 0);
+        return list;
+    }
+    
+    void preorder(Node root, ArrayList<Integer> list, int level){
+        if(root == null) return;
+        
+        if(level == list.size()) list.add(root.data);
+        preorder(root.left, list, level + 1);
+        preorder(root.right, list, level + 1);
+        
     }
 }
