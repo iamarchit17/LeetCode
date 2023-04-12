@@ -123,7 +123,8 @@ class Node{
     }
 }
 */
-
+// using inorder traversal
+/*
 class Solution{
     //Function to return a list of nodes visible from the top view 
     //from left to right in Binary Tree.
@@ -156,18 +157,61 @@ class Solution{
         inorder(root.left, map, w-1, level + 1);
         inorder(root.right, map, w+1, level + 1);
     }
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
+*/
+
+// using level order traversal
+
+class Solution{
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    static ArrayList<Integer> topView(Node root){
+        ArrayList<Integer> list = new ArrayList<>();
+        if(root == null) return list;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        Deque<Pair> dq = new ArrayDeque<>();
+        Pair p = new Pair(root, 0);
+        dq.add(p);
+        int level = 0;
+        
+        while(dq.size() != 0){
+            int count = dq.size();
+            for(int i = 0; i < count; i++){
+                Pair temp = dq.poll();
+                if(temp.node.left != null){
+                    Pair left = new Pair(temp.node.left, temp.w - 1);
+                    dq.add(left);
+                }
+                
+                if(temp.node.right != null){
+                    Pair right = new Pair(temp.node.right, temp.w + 1);
+                    dq.add(right);
+                }
+                
+                if(!map.containsKey(temp.w)){
+                    map.put(temp.w, temp.node.data);
+                }
+            }
+        }
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int i : map.keySet()) pq.add(i);
+        
+        while(pq.size() != 0) list.add(map.get(pq.poll()));
+        
+        return list;
+        
+    }
+}
+
+class Pair{
+    Node node;
+    int w;
+    
+    public Pair(Node node, int w){
+        this.node = node;
+        this.w = w;
+    }
+}
+
+
