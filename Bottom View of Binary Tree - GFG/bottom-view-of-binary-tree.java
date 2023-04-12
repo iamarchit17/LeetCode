@@ -116,7 +116,8 @@ class GfG {
 
 //User function Template for Java
 
-
+//using inorder traversal
+/*
 class Solution{
     public ArrayList <Integer> bottomView(Node root){
         ArrayList<Integer> list = new ArrayList<>();
@@ -147,3 +148,61 @@ class Solution{
         inorder(root.right, map, w+1, level + 1);
     }
 }
+*/
+
+//using level order traversal
+
+
+class Solution{
+    static ArrayList<Integer> bottomView(Node root){
+        ArrayList<Integer> list = new ArrayList<>();
+        if(root == null) return list;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        Deque<Pair> dq = new ArrayDeque<>();
+        Pair p = new Pair(root, 0);
+        dq.add(p);
+        int level = 0;
+        
+        while(dq.size() != 0){
+            int count = dq.size();
+            for(int i = 0; i < count; i++){
+                Pair temp = dq.poll();
+                if(temp.node.left != null){
+                    Pair left = new Pair(temp.node.left, temp.w - 1);
+                    dq.add(left);
+                }
+                
+                if(temp.node.right != null){
+                    Pair right = new Pair(temp.node.right, temp.w + 1);
+                    dq.add(right);
+                }
+                
+                if(!map.containsKey(temp.w)){
+                    map.put(temp.w, temp.node.data);
+                } else {
+                    map.replace(temp.w, temp.node.data);
+                }
+            }
+        }
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int i : map.keySet()) pq.add(i);
+        
+        while(pq.size() != 0) list.add(map.get(pq.poll()));
+        
+        return list;
+        
+    }
+}
+
+class Pair{
+    Node node;
+    int w;
+    
+    public Pair(Node node, int w){
+        this.node = node;
+        this.w = w;
+    }
+}
+
+
