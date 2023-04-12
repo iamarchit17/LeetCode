@@ -127,7 +127,8 @@ class Node
     }
 }*/
 
-
+//using level order traversal
+/*
 class Solution{
     ArrayList<Integer> rightView(Node root) {
         ArrayList<Integer> list = new ArrayList<Integer>();
@@ -150,4 +151,24 @@ class Solution{
         return list;
     }
 }
+*/
+
+//using preorder traversal
+class Solution{
+    ArrayList<Integer> rightView(Node root) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        if(root == null) return list;
+        preorder(root, list, 0);
+        return list;
+    }
+    
+    void preorder(Node root, ArrayList<Integer> list, int level){
+        if(root == null) return;
+        
+        if(level == list.size()) list.add(root.data);
+        preorder(root.right, list, level + 1);
+        preorder(root.left, list, level + 1);
+    }
+}
+
 
