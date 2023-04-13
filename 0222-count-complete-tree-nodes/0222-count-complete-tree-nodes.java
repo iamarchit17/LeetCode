@@ -52,6 +52,7 @@ class Solution {
 
 //O(n) time and O(log n) space
 //any dfs traversal
+/*
 class Solution {
     public int countNodes(TreeNode root) {
         if(root == null) return 0;
@@ -67,6 +68,45 @@ class Solution {
         countNodes(root.right, count);
     }
 }
+*/
+
+//O(log^2 n) time
+
+class Solution {
+    public int countNodes(TreeNode root) {
+        if(root == null) return 0;
+        
+        int x = leftHeight(root.left);
+        int y = rightHeight(root.right);
+        
+        if(x == y) {
+            int a = 1;
+            for(int i = 0; i <= x; i++) a *= 2;
+            return a - 1;
+        }
+        
+        return 1 + countNodes(root.left) + countNodes(root.right);
+    }
+    
+    public int leftHeight(TreeNode root){
+        int height = 0;
+        while(root != null){
+            root = root.left;
+            height++;
+        }
+        return height;
+    }
+    
+    public int rightHeight(TreeNode root){
+        int height = 0;
+        while(root != null){
+            root = root.right;
+            height++;
+        }
+        return height;
+    }
+}
+
 
 
 
