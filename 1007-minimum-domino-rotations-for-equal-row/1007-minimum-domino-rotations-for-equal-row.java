@@ -1,3 +1,4 @@
+/*
 class Solution {
     public int minDominoRotations(int[] tops, int[] bottoms) {
         HashSet<Integer> indices = new HashSet<>();
@@ -26,3 +27,51 @@ class Solution {
         return minRots == tops.length + 1 ? -1 : minRots;
     }
 }
+*/
+
+class Solution {
+    public int minDominoRotations(int[] tops, int[] bottoms) {
+        int minRots = tops.length + 1;
+        for(int i = 1; i <= 6; i++){
+            int countA = 0;
+            int countB = 0;
+            int same = 0;
+            
+            for(int j = 0; j < tops.length; j++){
+                if(tops[j] == i && bottoms[j] == i){
+                    same++;
+                } else if(tops[j] == i) countA++;
+                else if(bottoms[j] == i) countB++;
+            }
+            
+            if(same + countA + countB == tops.length) minRots = Math.min(countA, countB);            
+        }
+        
+        return minRots == tops.length + 1 ? -1 : minRots;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
