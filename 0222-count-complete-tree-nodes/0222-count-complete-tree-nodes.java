@@ -13,6 +13,9 @@
  *     }
  * }
  */
+
+//O(n) time and space, level order
+/*
 class Solution {
     public int countNodes(TreeNode root) {
         if(root == null) return 0;
@@ -45,3 +48,26 @@ class Solution {
         return count + dq.size();
     }
 }
+*/
+
+//O(n) time and O(log n) space
+//any dfs traversal
+class Solution {
+    public int countNodes(TreeNode root) {
+        if(root == null) return 0;
+        int[] count = new int[1];
+        countNodes(root, count);
+        return count[0];
+    }
+    
+    public void countNodes(TreeNode root, int[] count){
+        if(root == null) return;
+        count[0]++;
+        countNodes(root.left, count);
+        countNodes(root.right, count);
+    }
+}
+
+
+
+
