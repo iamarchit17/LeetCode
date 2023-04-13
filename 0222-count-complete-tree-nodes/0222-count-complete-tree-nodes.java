@@ -79,11 +79,7 @@ class Solution {
         int x = leftHeight(root.left);
         int y = rightHeight(root.right);
         
-        if(x == y) {
-            int a = 1;
-            for(int i = 0; i <= x; i++) a *= 2;
-            return a - 1;
-        }
+        if(x == y) return (1 << (x + 1)) - 1;
         
         return 1 + countNodes(root.left) + countNodes(root.right);
     }
