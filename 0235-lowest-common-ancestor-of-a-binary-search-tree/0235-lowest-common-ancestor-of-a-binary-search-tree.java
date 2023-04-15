@@ -17,9 +17,9 @@ class Solution {
         int max = Math.max(p.val, q.val);
         
         while(temp != null){
-            if(min <= temp.val && max >= temp.val) return temp;
-            else if(max < temp.val) temp = temp.left;
-            else temp = temp.right;
+            if(max < temp.val) temp = temp.left;
+            else if(min > temp.val) temp = temp.right;
+            else if(min <= temp.val && max >= temp.val) return temp;
         }
         
         return temp;
