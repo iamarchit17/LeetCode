@@ -16,7 +16,7 @@
 class Solution {
     public boolean isEvenOddTree(TreeNode root) {
         Queue<TreeNode> dq = new LinkedList<>();
-        int level = 0;
+        boolean evenLevel = true;
         
         dq.add(root);
         int count = 1;
@@ -26,8 +26,8 @@ class Solution {
             count--;
             TreeNode temp = dq.poll();
             
-            if(level % 2 == 0 && (temp.val <= prev || temp.val % 2 == 0)) return false;
-            if(level % 2 == 1 && (temp.val >= prev || temp.val % 2 == 1)) return false;
+            if(evenLevel && (temp.val <= prev || temp.val % 2 == 0)) return false;
+            if(!evenLevel && (temp.val >= prev || temp.val % 2 == 1)) return false;
             
             prev = temp.val;
             if(temp.left != null) dq.add(temp.left);
@@ -35,8 +35,8 @@ class Solution {
             
             if(count == 0){
                 count = dq.size();
-                level++;
-                prev = (level % 2 == 0) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+                evenLevel = !evenLevel;
+                prev = (evenLevel) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
             }
         }
         
