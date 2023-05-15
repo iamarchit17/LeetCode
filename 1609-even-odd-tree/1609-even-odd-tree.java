@@ -15,7 +15,7 @@
  */
 class Solution {
     public boolean isEvenOddTree(TreeNode root) {
-        Deque<TreeNode> dq = new ArrayDeque<>();
+        Queue<TreeNode> dq = new LinkedList<>();
         int level = 0;
         
         dq.add(root);
