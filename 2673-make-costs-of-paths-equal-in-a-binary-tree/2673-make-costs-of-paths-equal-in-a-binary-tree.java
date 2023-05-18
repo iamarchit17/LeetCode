@@ -1,3 +1,6 @@
+
+//DFS Solution
+/*
 class Solution {
     public int minIncrements(int n, int[] cost) {
         int[] ops = new int[1];
@@ -13,5 +16,18 @@ class Solution {
         
         ops[0] += Math.abs(x - y);
         return cost[index] + Math.max(x, y);
+    }
+}
+*/
+
+class Solution {
+    public int minIncrements(int n, int[] cost) {
+        int ops = 0;
+        for(int i = n/2 - 1; i >= 0; i--){
+            ops += Math.abs(cost[2 * i + 1] - cost[2 * i + 2]);
+            cost[i] += Math.max(cost[2 * i + 1], cost[2 * i + 2]);
+        }
+        
+        return ops;
     }
 }
