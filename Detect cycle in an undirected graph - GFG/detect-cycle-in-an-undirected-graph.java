@@ -31,7 +31,54 @@ class GFG {
 }
 // } Driver Code Ends
 
+//Using BFS
+// class Solution {
+//     // Function to detect cycle in an undirected graph.
+//     public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+//         boolean[] visited = new boolean[V];
 
+//         for(int i = 0; i < V; i++){
+//             if(!visited[i]){
+//                 boolean res = bfs(i, adj, visited);
+//                 if(res) return res;
+//             }
+//         }
+        
+//         return false;
+//     }
+    
+//     public boolean bfs(int node, ArrayList<ArrayList<Integer>> adj, boolean[] visited){
+//         Queue<Pair> q = new LinkedList<>();
+//         q.add(new Pair(node, -1));
+//         visited[node] = true;
+        
+//         while(q.size() != 0){
+//             Pair p = q.poll();
+//             int curr = p.node;
+//             int parent = p.parent;
+            
+//             for(int x : adj.get(curr)){
+//                 if(x != parent && (!visited[x])){
+//                     visited[x] = true;
+//                     q.add(new Pair(x, curr));
+//                 } else if(x != parent && visited[x]) return true;
+//             }
+//         }
+        
+//         return false;
+//     }
+// }
+
+// class Pair{
+//     int node, parent;
+    
+//     public Pair(int x, int y){
+//         this.node = x;
+//         this.parent = y;
+//     }
+//}
+
+//Using DFS
 class Solution {
     // Function to detect cycle in an undirected graph.
     public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
@@ -39,41 +86,23 @@ class Solution {
 
         for(int i = 0; i < V; i++){
             if(!visited[i]){
-                boolean res = bfs(i, adj, visited);
-                if(res) return res;
+                if(dfs(i, -1, adj, visited)) return true;
             }
         }
         
         return false;
     }
     
-    public boolean bfs(int node, ArrayList<ArrayList<Integer>> adj, boolean[] visited){
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(node, -1));
+    public boolean dfs(int node, int parent, ArrayList<ArrayList<Integer>> adj, boolean[] visited){
         visited[node] = true;
         
-        while(q.size() != 0){
-            Pair p = q.poll();
-            int curr = p.node;
-            int parent = p.parent;
-            
-            for(int x : adj.get(curr)){
-                if(x != parent && (!visited[x])){
-                    visited[x] = true;
-                    q.add(new Pair(x, curr));
-                } else if(x != parent && visited[x]) return true;
-            }
+        for(int x : adj.get(node)){
+            if(!visited[x]){
+                if(dfs(x, node, adj, visited)) return true;
+            } else if(x != parent) return true;
         }
         
         return false;
     }
 }
 
-class Pair{
-    int node, parent;
-    
-    public Pair(int x, int y){
-        this.node = x;
-        this.parent = y;
-    }
-}
