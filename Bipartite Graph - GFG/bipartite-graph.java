@@ -34,44 +34,73 @@ class GFG
 }
 // } Driver Code Ends
 
+//BFS Solution
+// class Solution{
+//     public boolean isBipartite(int V, ArrayList<ArrayList<Integer>>adj){
+//         int[] visited = new int[V];
+//         Arrays.fill(visited, -1);
+//         for(int i = 0; i < V; i++){
+//             if(visited[i] == -1){
+//                 boolean x = bfs(i, visited, adj);
+//                 if(!x) return false;
+//             }
+//         }
+        
+//         return true;
+//     }
+    
+//     public boolean bfs(int node, int[] visited, ArrayList<ArrayList<Integer>>adj){
+//         visited[node] = 0;
+//         Queue<Integer> q = new LinkedList<>();
+//         q.add(node);
+//         int nColor = 1;
+        
+//         while(q.size() != 0){
+//             int size = q.size();
 
+//             for(int i = 0; i < size; i++){
+//                 int curr = q.poll();
+                
+//                 for(int x : adj.get(curr)){
+//                     if(visited[x] == -1){
+//                         visited[x] = nColor;
+//                         q.add(x);
+//                     } else if(visited[x] != nColor) return false;
+//                 }
+//             }
+            
+//             nColor = 1 - nColor;
+//         }
+        
+//         return true;
+//     }
+// }
+
+
+//DFS Solution
 class Solution{
     public boolean isBipartite(int V, ArrayList<ArrayList<Integer>>adj){
         int[] visited = new int[V];
         Arrays.fill(visited, -1);
         for(int i = 0; i < V; i++){
             if(visited[i] == -1){
-                boolean x = bfs(i, visited, adj);
-                if(!x) return false;
+                if(!dfs(i, 0, visited, adj)) return false;
             }
         }
         
         return true;
     }
     
-    public boolean bfs(int node, int[] visited, ArrayList<ArrayList<Integer>>adj){
-        visited[node] = 0;
-        Queue<Integer> q = new LinkedList<>();
-        q.add(node);
-        int nColor = 1;
-        
-        while(q.size() != 0){
-            int size = q.size();
-
-            for(int i = 0; i < size; i++){
-                int curr = q.poll();
-                
-                for(int x : adj.get(curr)){
-                    if(visited[x] == -1){
-                        visited[x] = nColor;
-                        q.add(x);
-                    } else if(visited[x] != nColor) return false;
-                }
+    public boolean dfs(int node, int currColor, int[] visited, ArrayList<ArrayList<Integer>>adj){
+        visited[node] = currColor;
+        int nColor = 1 - currColor;
+        for(int x : adj.get(node)){
+            if(visited[x] == currColor) return false;
+            else if(visited[x] == -1){
+                if(!dfs(x, nColor, visited, adj)) return false;
             }
-            
-            nColor = 1 - nColor;
         }
-        
+
         return true;
     }
 }
