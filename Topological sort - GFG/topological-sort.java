@@ -58,31 +58,66 @@ class Main {
 /*Complete the function below*/
 
 
+//DFS Solution
+// class Solution{
+//     //Function to return list containing vertices in Topological order. 
+//     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) {
+//         Deque<Integer> dq = new ArrayDeque<Integer>();
+//         boolean[] visited = new boolean[V];
+        
+//         for(int i = 0; i < V; i++){
+//             if(!visited[i]) dfs(i, adj, visited, dq);
+//         }
+        
+//         int[] order = new int[V];
+//         for(int i = 0; i < V; i++){
+//             order[i] = dq.pop();
+//         }
+        
+//         return order;
+//     }
+    
+//     static void dfs(int node, ArrayList<ArrayList<Integer>> adj, boolean[] visited, Deque<Integer> dq){
+//         visited[node] = true;
+        
+//         for(int x : adj.get(node)){
+//             if(!visited[x]) dfs(x, adj, visited, dq);
+//         }
+        
+//         dq.push(node);
+//     }
+// }
+
+//BFS Solution
 class Solution{
     //Function to return list containing vertices in Topological order. 
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) {
-        Deque<Integer> dq = new ArrayDeque<Integer>();
-        boolean[] visited = new boolean[V];
-        
+        int[] inDegree = new int[V];
         for(int i = 0; i < V; i++){
-            if(!visited[i]) dfs(i, adj, visited, dq);
+            for(int x : adj.get(i)){
+                inDegree[x]++;
+            }
         }
         
+        Deque<Integer> dq = new ArrayDeque<>();
+        
+        for(int i = 0; i < V; i++){
+            if(inDegree[i] == 0) dq.add(i);
+        }
+
         int[] order = new int[V];
-        for(int i = 0; i < V; i++){
-            order[i] = dq.pop();
+        int index = 0;
+        
+        while(dq.size() != 0){
+            int node = dq.poll();
+            order[index++] = node;
+            
+            for(int x : adj.get(node)){
+                inDegree[x]--;
+                if(inDegree[x] == 0) dq.add(x);
+            }
         }
         
-        return order;
-    }
-    
-    static void dfs(int node, ArrayList<ArrayList<Integer>> adj, boolean[] visited, Deque<Integer> dq){
-        visited[node] = true;
-        
-        for(int x : adj.get(node)){
-            if(!visited[x]) dfs(x, adj, visited, dq);
-        }
-        
-        dq.push(node);
+        return order;   
     }
 }
