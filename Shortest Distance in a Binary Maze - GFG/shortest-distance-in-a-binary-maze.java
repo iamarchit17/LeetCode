@@ -43,48 +43,112 @@ class GFG {
 
 // User function Template for Java
 //BFS Solution
+// class Solution {
+
+//     int shortestPath(int[][] grid, int[] source, int[] destination) {
+//         if(grid[source[0]][source[1]] == 0) return -1;
+//         int n = grid.length;
+//         int m = grid[0].length;
+//         boolean[][] visited = new boolean[n][m];
+        
+//         Deque<Pair> dq = new ArrayDeque<>();
+//         dq.add(new Pair(source[0], source[1]));
+//         visited[source[0]][source[1]] = true;
+        
+//         int dist = 0;
+//         while(dq.size() != 0){
+//             int size = dq.size();
+//             for(int i = 0; i < size; i++){
+//                 Pair p =dq.poll();
+//                 int x = p.x;
+//                 int y = p.y;
+//                 if(destination[0] == x && destination[1] == y) return dist;
+                
+//                 if(x-1 >= 0 && grid[x-1][y] == 1 && !visited[x-1][y]){
+//                     visited[x-1][y] = true;
+//                     dq.add(new Pair(x-1, y));
+//                 }
+                
+//                 if(x+1 < n && grid[x+1][y] == 1 && !visited[x+1][y]){
+//                     visited[x+1][y] = true;
+//                     dq.add(new Pair(x+1, y));
+//                 }
+                
+//                 if(y-1 >= 0 && grid[x][y-1] == 1 && !visited[x][y-1]){
+//                     visited[x][y-1] = true;
+//                     dq.add(new Pair(x, y-1));
+//                 }
+                
+//                 if(y+1 < m && grid[x][y+1] == 1 && !visited[x][y+1]){
+//                     visited[x][y+1] = true;
+//                     dq.add(new Pair(x, y+1));
+//                 }
+//             }
+//             dist++;
+//         }
+        
+//         return -1;
+//     }
+    
+// }
+
+// class Pair{
+//     int x, y;
+    
+//     public Pair(int x, int y){
+//         this.x = x;
+//         this.y = y;
+//     }
+// }
+
 class Solution {
 
     int shortestPath(int[][] grid, int[] source, int[] destination) {
         if(grid[source[0]][source[1]] == 0) return -1;
         int n = grid.length;
         int m = grid[0].length;
-        boolean[][] visited = new boolean[n][m];
+        int[][] dist = new int[n][m];
+        for(int i = 0; i < n; i++) Arrays.fill(dist[i], Integer.MAX_VALUE);
+        PriorityQueue<int[]> pq = new PriorityQueue<>(n*m, (l1, l2) -> l1[2] - l2[2]);
+        pq.add(new int[]{source[0], source[1], 0});
+        dist[source[0]][source[1]] = 0;
         
-        Deque<Pair> dq = new ArrayDeque<>();
-        dq.add(new Pair(source[0], source[1]));
-        visited[source[0]][source[1]] = true;
-        
-        int dist = 0;
-        while(dq.size() != 0){
-            int size = dq.size();
-            for(int i = 0; i < size; i++){
-                Pair p =dq.poll();
-                int x = p.x;
-                int y = p.y;
-                if(destination[0] == x && destination[1] == y) return dist;
-                
-                if(x-1 >= 0 && grid[x-1][y] == 1 && !visited[x-1][y]){
-                    visited[x-1][y] = true;
-                    dq.add(new Pair(x-1, y));
-                }
-                
-                if(x+1 < n && grid[x+1][y] == 1 && !visited[x+1][y]){
-                    visited[x+1][y] = true;
-                    dq.add(new Pair(x+1, y));
-                }
-                
-                if(y-1 >= 0 && grid[x][y-1] == 1 && !visited[x][y-1]){
-                    visited[x][y-1] = true;
-                    dq.add(new Pair(x, y-1));
-                }
-                
-                if(y+1 < m && grid[x][y+1] == 1 && !visited[x][y+1]){
-                    visited[x][y+1] = true;
-                    dq.add(new Pair(x, y+1));
+        while(pq.size() != 0){
+            int[] node = pq.poll();
+            int x = node[0];
+            int y = node[1];
+            int d = node[2];
+            
+            if(destination[0] == x && destination[1] == y) return dist[x][y];
+            
+            if(x-1 >= 0 && grid[x-1][y] == 1){
+                if(d+1 < dist[x-1][y]){
+                    dist[x-1][y] = d+1;
+                    pq.add(new int[]{x-1, y, d+1});
                 }
             }
-            dist++;
+            
+            if(x+1 < n && grid[x+1][y] == 1){
+                if(d+1 < dist[x+1][y]){
+                    dist[x+1][y] = d+1;
+                    pq.add(new int[]{x+1, y, d+1});
+                }
+            }
+            
+            if(y-1 >= 0 && grid[x][y-1] == 1){
+                if(d+1 < dist[x][y-1]){
+                    dist[x][y-1] = d+1;
+                    pq.add(new int[]{x, y-1, d+1});
+                }
+            }
+            
+            if(y+1 < m && grid[x][y+1] == 1){
+                if(d+1 < dist[x][y+1]){
+                    dist[x][y+1] = d+1;
+                    pq.add(new int[]{x, y+1, d+1});
+                }
+            }
+            
         }
         
         return -1;
