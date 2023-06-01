@@ -54,10 +54,35 @@ class DriverClass
 
 //User function Template for Java
 
+// without using Visited Array
+// class Solution{
+//     //Function to find the shortest distance of all the vertices
+//     //from the source vertex S.
+//     static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S){
+//         PriorityQueue<int[]> pq = new PriorityQueue<>(V, (l1, l2) -> l1[0] - l2[0]);
+//         pq.add(new int[]{0, S});
+        
+//         int[] dist = new int[V];
+//         Arrays.fill(dist, Integer.MAX_VALUE);
+//         dist[S] = 0;
+        
+        
+//         while(pq.size() != 0){
+//             int[] node = pq.poll();
+            
+//             for(ArrayList<Integer> l : adj.get(node[1])){
+//                 if(dist[node[1]] + l.get(1) < dist[l.get(0)]){
+//                     dist[l.get(0)] = dist[node[1]] + l.get(1);
+//                     pq.add(new int[]{dist[l.get(0)], l.get(0)});
+//                 }
+//             }
+//         }
+        
+//         return dist;
+//     }
+// }
 
 class Solution{
-    //Function to find the shortest distance of all the vertices
-    //from the source vertex S.
     static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S){
         PriorityQueue<int[]> pq = new PriorityQueue<>(V, (l1, l2) -> l1[0] - l2[0]);
         pq.add(new int[]{0, S});
@@ -66,13 +91,19 @@ class Solution{
         Arrays.fill(dist, Integer.MAX_VALUE);
         dist[S] = 0;
         
+        boolean[] visited = new boolean[V];
+        
         while(pq.size() != 0){
             int[] node = pq.poll();
+            visited[node[1]] = true;
             
+            int d = node[0];
             for(ArrayList<Integer> l : adj.get(node[1])){
-                if(dist[node[1]] + l.get(1) < dist[l.get(0)]){
-                    dist[l.get(0)] = dist[node[1]] + l.get(1);
-                    pq.add(new int[]{dist[l.get(0)], l.get(0)});
+                if(!visited[l.get(0)]){
+                    if(d + l.get(1) < dist[l.get(0)]){
+                        dist[l.get(0)] = dist[node[1]] + l.get(1);
+                        pq.add(new int[]{dist[l.get(0)], l.get(0)});
+                    }
                 }
             }
         }
@@ -80,4 +111,6 @@ class Solution{
         return dist;
     }
 }
+
+
 
