@@ -26,15 +26,15 @@ class Solution {
             int size = q.size();
             for(int i = 0; i < size; i++){   
                 TreeNode temp = q.poll();
-                
+                Pair p = new Pair(temp.val, level);
                 if(temp.left != null){
                     q.add(temp.left);
-                    map.put(temp.left.val, new Pair(temp.val, level));
+                    map.put(temp.left.val, p);
                 }
                 
                 if(temp.right != null){
                     q.add(temp.right);
-                    map.put(temp.right.val, new Pair(temp.val, level));
+                    map.put(temp.right.val, p);
                 }
             }
             
