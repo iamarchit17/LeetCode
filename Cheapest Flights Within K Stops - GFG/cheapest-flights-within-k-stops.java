@@ -42,7 +42,7 @@ class Solution {
             adj.get(flights[i][0]).add(l);
         }
         
-        Deque<int[]> dq = new ArrayDeque<>();
+        Queue<int[]> dq = new LinkedList<>();
         int[] cost = new int[n];
         Arrays.fill(cost, Integer.MAX_VALUE);
         cost[src] = 0;
