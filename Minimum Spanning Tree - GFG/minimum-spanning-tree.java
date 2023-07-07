@@ -32,7 +32,8 @@ public class Main{
 
 
 // User function Template for Java
-
+/*
+//Prim's Algorithm
 class Solution{
 	static int spanningTree(int V, int E, int edges[][]){
 	    
@@ -84,3 +85,61 @@ class Pair{
         this.node = node;
     }
 }
+*/
+
+class Solution{
+	static int spanningTree(int V, int E, int edges[][]){
+	    Arrays.sort(edges, (l1, l2) -> l1[2] - l2[2]);
+	    UnionBySize ubs = new UnionBySize(V);
+	    
+	    int sum = 0;
+	    
+	    for(int i = 0; i < E; i++){
+	        if(ubs.find(edges[i][0]) != ubs.find(edges[i][1])){
+	            sum += edges[i][2];
+	            ubs.union(edges[i][0], edges[i][1]);
+	        }
+	    }
+	    
+	    return sum;
+	}
+}
+
+class UnionBySize{
+    int[] size, id;
+    
+    public UnionBySize(int n){
+        this.size = new int[n];
+        this.id = new int[n];
+        
+        for(int i = 0; i < n; i++){
+            size[i] = 1;
+            id[i] = i; 
+        }
+    }
+    
+    public int find(int u){
+        if(u == id[u]) return u;
+        return id[u] = find(id[u]);
+    }
+    
+    public void union(int u, int v){
+        int idU = find(u);
+        int idV = find(v);
+        
+        if(idU == idV) return;
+        
+        if(size[idU] < size[idV]){
+            id[idU] = idV;
+            size[idV] += size[idU];
+        } else {
+            id[idV] = idU;
+            size[idU] += size[idV];
+        }
+    }
+}
+
+
+
+
+
