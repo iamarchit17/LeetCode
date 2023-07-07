@@ -31,6 +31,8 @@ class GFG {
 
 //User function Template for Java
 
+/*
+//DFS Solution
 class Solution {
     static int numProvinces(ArrayList<ArrayList<Integer>> adj, int V) {
         int provinces = 0;
@@ -52,4 +54,59 @@ class Solution {
             if(adj.get(node).get(i) == 1 && !visited[i]) dfs(i, visited, adj);
         }
     }
-};
+}
+
+*/
+
+class Solution {
+    static int numProvinces(ArrayList<ArrayList<Integer>> adj, int V) {
+        UnionBySize ubs = new UnionBySize(adj.size());
+        
+        for(int i = 0; i < adj.size(); i++){
+            for(int j = i+1; j < adj.get(i).size(); j++){
+                if(adj.get(i).get(j) == 1) ubs.union(i, j);
+            }
+        }
+        
+        int count = 0;
+        for(int i = 0; i < adj.size(); i++){
+            if(ubs.id[i] == i) count++;
+        }
+        
+        return count;
+    }
+}
+
+class UnionBySize{
+    int[] id, size;
+    
+    public UnionBySize(int V){
+        this.id = new int[V];
+        this.size = new int[V];
+        
+        for(int i = 0; i < V; i++){
+            id[i] = i;
+            size[i] = 1;
+        }
+    }
+    
+    public int find(int u){
+        if(u == id[u]) return u;
+        return id[u] = find(id[u]);
+    }
+    
+    public void union(int u, int v){
+        int idU = find(u);
+        int idV = find(v);
+        
+        if(idU == idV) return;
+        if(size[idU] < size[idV]){
+            id[idU] = idV;
+            size[idV] += size[idU];
+        } else {
+            id[idV] = idU;
+            size[idU] += size[idV];
+        }
+    }
+}
+
