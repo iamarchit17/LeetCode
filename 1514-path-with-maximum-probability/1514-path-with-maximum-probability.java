@@ -15,9 +15,8 @@ class Solution {
         prob[start] = 1.0;
         
         while(pq.size() != 0){
-            Pair p = pq.poll();
-            int node = p.node;
-            double probab = p.prob;
+            int node = pq.peek().node;
+            double probab = pq.poll().prob;
             
             for(Map.Entry<Integer, Double> nbr : adj.get(node).entrySet()){
                 double nprob = probab * nbr.getValue();
