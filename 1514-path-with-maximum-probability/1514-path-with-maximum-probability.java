@@ -12,7 +12,6 @@ class Solution {
         pq.add(new Pair(start, 1.0));
         
         double[] prob = new double[n];
-        Arrays.fill(prob, 0.0);
         prob[start] = 1.0;
         
         while(pq.size() != 0){
