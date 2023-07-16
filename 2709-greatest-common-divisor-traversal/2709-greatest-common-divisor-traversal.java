@@ -52,7 +52,7 @@ class DisjointSet{
     
     public int find(int n){
         if(id.get(n) == n) return n;
-        id.put(n, id.get(id.get(n)));
+        id.put(n, find(id.get(n)));
         return id.get(n);
     }
     
