@@ -12,15 +12,13 @@ class Solution {
             }
         }
         
-        int max = 0;
+        int longest = 0;
         
-        for(Map.Entry<Integer, Integer> entry : ds.id.entrySet()){
-            if(ds.find(entry.getKey()) == entry.getKey() && ds.size.get(entry.getKey()) > max){
-                max = ds.size.get(entry.getKey());
-            }
+        for(Map.Entry<Integer, Integer> entry : ds.size.entrySet()){
+            longest = Math.max(longest, entry.getValue());
         }
         
-        return max;
+        return longest;
     }
 }
 
