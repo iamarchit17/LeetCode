@@ -1,19 +1,14 @@
 class Solution {
     
     private boolean areSimilar(String s1, String s2){
-        int firstIndex = -1, secondIndex = -1, count = 0;
+        int count = 0;
         for(int i = 0; i < s1.length(); i++){
-            if(s1.charAt(i) != s2.charAt(i)){
-                if(firstIndex == -1) firstIndex = i;
-                else secondIndex = i;
-                count++;
-            } 
+            if(s1.charAt(i) != s2.charAt(i)) count++;
         }
         
-        if(count == 0) return true;
-        if(count == 2 && s1.charAt(firstIndex) == s2.charAt(secondIndex) && s1.charAt(secondIndex) == s2.charAt(firstIndex)) return true;
+        if(count > 2) return false;
         
-        return false;
+        return true;
     }
     
     public int numSimilarGroups(String[] strs) {
