@@ -53,23 +53,49 @@
 // }
 
 
+//Bottom-Up DP
+// class Solution {
+//     public boolean isInterleave(String s1, String s2, String s3) {
+//         if(s1.length() + s2.length() != s3.length()) return false;
+        
+//         boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+        
+//         for(int i = 0; i < dp.length; i++){
+//             for(int j = 0; j < dp[i].length; j++){
+//                 int idx = i + j - 1;
+//                 if(i == 0 && j == 0) dp[i][j] = true;
+//                 else if(i == 0) dp[i][j] = dp[i][j-1] && (s2.charAt(j-1) == s3.charAt(idx));
+//                 else if(j == 0) dp[i][j] = dp[i-1][j] && (s1.charAt(i-1) == s3.charAt(idx));
+//                 else dp[i][j] = (s1.charAt(i-1) == s3.charAt(idx) && dp[i-1][j]) || (s2.charAt(j-1) == s3.charAt(idx) && dp[i][j-1]);
+//             }
+//         }
+        
+//         return dp[s1.length()][s2.length()];
+//     }
+// }
+
+
+//Bottom-Up with Space Optimization
 class Solution {
     public boolean isInterleave(String s1, String s2, String s3) {
         if(s1.length() + s2.length() != s3.length()) return false;
         
-        boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+        boolean[] dp = new boolean[s2.length() + 1];
+        boolean[] dp1 = new boolean[s2.length() + 1];
         
-        for(int i = 0; i < dp.length; i++){
-            for(int j = 0; j < dp[i].length; j++){
+        for(int i = 0; i <= s1.length(); i++){
+            for(int j = 0; j <= s2.length(); j++){
                 int idx = i + j - 1;
-                if(i == 0 && j == 0) dp[i][j] = true;
-                else if(i == 0) dp[i][j] = dp[i][j-1] && (s2.charAt(j-1) == s3.charAt(idx));
-                else if(j == 0) dp[i][j] = dp[i-1][j] && (s1.charAt(i-1) == s3.charAt(idx));
-                else dp[i][j] = (s1.charAt(i-1) == s3.charAt(idx) && dp[i-1][j]) || (s2.charAt(j-1) == s3.charAt(idx) && dp[i][j-1]);
+                if(i == 0 && j == 0) dp[j] = true;
+                else if(i == 0) dp[j] = dp[j-1] && (s2.charAt(j-1) == s3.charAt(idx));
+                else if(j == 0) dp[j] = dp1[j] && (s1.charAt(i-1) == s3.charAt(idx));
+                else dp[j] = (s1.charAt(i-1) == s3.charAt(idx) && dp1[j]) || (s2.charAt(j-1) == s3.charAt(idx) && dp[j-1]);
             }
+            
+            dp1 = dp.clone();
         }
         
-        return dp[s1.length()][s2.length()];
+        return dp[s2.length()];
     }
 }
 
