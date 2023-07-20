@@ -24,7 +24,7 @@
 //     }
 // }
 
-// Memoization
+// Memoization (Top-Down DP)
 class Solution {
     public boolean isInterleave(String s1, String s2, String s3) {
         if(s1.length() + s2.length() != s3.length()) return false;
@@ -36,10 +36,9 @@ class Solution {
     }
     
     public int isInterleave(String s1, String s2, String s3, int idx1, int idx2, int[][] dp){
-        if(idx1 + idx2 == s3.length()) return (idx1 == s1.length() && idx2 == s2.length()) ? 1 : 0;
-        
         if(idx1 == s1.length()) return (s2.substring(idx2).equals(s3.substring(idx1 + idx2))) ? 1 : 0;
         if(idx2 == s2.length()) return (s1.substring(idx1).equals(s3.substring(idx1 + idx2))) ? 1 : 0;
+        if(idx1 + idx2 == s3.length()) return (idx1 == s1.length() && idx2 == s2.length()) ? 1 : 0;
         
         if(dp[idx1][idx2] != -1) return dp[idx1][idx2];
         
