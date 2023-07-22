@@ -83,43 +83,42 @@ class GFG {
 //User function Template for Java
 
 class Solution{
-    public String findOrder(String [] dict, int N, int K){
-        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
-        
-        for(int i = 0; i < K; i++) adj.add(new ArrayList<>());
-        
-        for(int i = 0; i < N-1; i++){
-            String s1 = dict[i];
-            String s2 = dict[i+1];
-            
-            int len = Math.min(s1.length(), s2.length());
-            for(int j = 0; j < len; j++){
-                if(s1.charAt(j) != s2.charAt(j)){
-                    adj.get(s1.charAt(j) - 'a').add(s2.charAt(j) - 'a');
+    public String findOrder(String [] dictionary, int N, int K){
+        HashMap<Character, List<Character>> adj = new HashMap<>();
+        for(int i = 0; i < K; i++){
+            adj.put((char)(i + 97), new ArrayList<>());
+        }
+
+        for(int i = 1; i < dictionary.length; i++){
+            int l = Math.min(dictionary[i-1].length(), dictionary[i].length());
+            for(int j = 0; j < l; j++){
+                if(dictionary[i].charAt(j) != dictionary[i-1].charAt(j)){
+                    adj.get(dictionary[i-1].charAt(j)).add(dictionary[i].charAt(j));
                     break;
                 }
             }
         }
-        
+
+        Deque<Character> dq = new ArrayDeque<>();
         boolean[] visited = new boolean[K];
-        Deque<Integer> dq = new ArrayDeque<>();
         for(int i = 0; i < K; i++){
-            if(!visited[i]) topoSort(i, adj, visited, dq);
+            if(!visited[i]) dfs((char) (i + 97), visited, adj, dq);
         }
-        
-        StringBuilder sb = new StringBuilder();
-        while(dq.size() != 0) sb.append((char) (dq.pop()+97));
-        
-        return sb.toString();
+
+        StringBuilder res = new StringBuilder();
+        while(dq.size() != 0) res.append(dq.pop());
+
+        return res.toString();
     }
     
-    public void topoSort(int node, ArrayList<ArrayList<Integer>> adj, boolean[] visited, Deque<Integer> dq){
-        visited[node] = true;
-        
-        for(int x : adj.get(node)){
-            if(!visited[x]) topoSort(x, adj, visited, dq);
+    
+    public void dfs(char node, boolean[] visited, HashMap<Character, List<Character>> adj, Deque<Character> dq){
+        visited[node - 97] = true;
+
+        for(char nbr : adj.get(node)){
+            if(!visited[nbr - 97]) dfs(nbr, visited, adj, dq);
         }
-        
+
         dq.push(node);
     }
 }
