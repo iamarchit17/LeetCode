@@ -109,40 +109,51 @@ class GFG
 
 class Solution{
 	ArrayList <Integer> boundary(Node node){
+	    ArrayList<Integer> l = left(node.left);
+	    ArrayList<Integer> r = right(node.right);
+	    ArrayList<Integer> leaf = new ArrayList<>();
+	    leafs(node, leaf);
+	    
 	    ArrayList<Integer> boundary = new ArrayList<>();
 	    if(!(node.left == null && node.right == null)) boundary.add(node.data);
+	    for(int i = 0; i < l.size(); i++) boundary.add(l.get(i));
+	    for(int i = 0; i < leaf.size(); i++) boundary.add(leaf.get(i));
+	    for(int i = r.size() - 1; i >= 0; i--) boundary.add(r.get(i));
 	    
-	    Node temp = node.left;
-	    while(temp != null){
-	        if(!(temp.left == null && temp.right == null))boundary.add(temp.data);
-	        
-	        if(temp.left != null) temp = temp.left;
-	        else temp = temp.right;
-	        
-	    }
-	    
-	    getLeaves(node, boundary);
-	    
-	    ArrayList<Integer> rightBoundary = new ArrayList<>();
-	    temp = node.right;
-	    while(temp != null){
-	        if(!(temp.left == null && temp.right == null)) rightBoundary.add(temp.data);
-	        if(temp.right != null) temp = temp.right;
-	        else temp = temp.left;
-	    }
-	    
-	    for(int i = rightBoundary.size() - 1; i >= 0; i--){
-	        boundary.add(rightBoundary.get(i));
-	    }
 	    
 	    return boundary;
 	}
 	
-	void getLeaves(Node root, ArrayList<Integer> list){
-	    if(root == null) return;
-	    getLeaves(root.left, list);
-	    getLeaves(root.right, list);
+	ArrayList<Integer> left(Node node){
+	    ArrayList<Integer> list = new ArrayList<>();
+	    if(node == null) return list;
+	    while(!(node.left == null && node.right == null)){
+	        list.add(node.data);
+	        if(node.left != null) node = node.left;
+	        else if(node.right != null) node = node.right;
+	    }
 	    
-	    if(root.left == null && root.right == null) list.add(root.data);
+	    return list;
+	}
+	
+	ArrayList<Integer> right(Node node){
+	    ArrayList<Integer> list = new ArrayList<>();
+	    if(node == null) return list;
+	    while(!(node.left == null && node.right == null)){
+	        list.add(node.data);
+	        if(node.right != null) node = node.right;
+	        else if(node.left != null) node = node.left;
+	    }
+	    
+	    return list;
+	}
+	
+	void leafs(Node node, ArrayList<Integer> list){
+	    if(node == null) return;
+	    
+	    leafs(node.left, list);
+	    if(node.left == null && node.right == null) list.add(node.data);
+	    leafs(node.right, list);
+	    
 	}
 }
