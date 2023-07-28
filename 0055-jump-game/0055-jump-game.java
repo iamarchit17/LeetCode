@@ -4,6 +4,7 @@ class Solution {
         int i = 1;
         while(i < nums.length && till >= i){
             if(i + nums[i] > till) till = i + nums[i];
+            if(till >= nums.length - 1) return true;
             i++;
         }
         
