@@ -5,9 +5,23 @@ class Solution {
             if(nums[i] < nums[i+1]) break;
         }
         
-        if(i == -1) Arrays.sort(nums);
+        if(i == -1) {
+            for(int j = 0; j < nums.length/2; j++){
+                int temp = nums[j];
+                nums[j] = nums[nums.length - 1 - j];
+                nums[nums.length - 1 - j] = temp;
+            }
+        }
         else{
-            Arrays.sort(nums, i + 1, nums.length);
+            int beginIndex = i + 1;
+            int k = 0;
+            for(int j = 0; j < (nums.length - beginIndex)/2; j++){
+                int temp = nums[j + beginIndex];
+                nums[j + beginIndex] = nums[nums.length - 1 - k];
+                nums[nums.length - 1 - k] = temp;
+                k++;
+            }
+            
             for(int j = i + 1; j < nums.length; j++){
                 if(nums[j] > nums[i]){
                     int temp = nums[j];
