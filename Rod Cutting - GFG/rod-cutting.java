@@ -28,21 +28,24 @@ class RodCutting {
 class Solution{
     public int cutRod(int price[], int n) {
         int[] dp = new int[n+1];
-        Arrays.fill(dp, -1);
         dp[0] = 0;
+        for(int i = 1; i <= n; i++) dp[i] = price[i-1];
         
-        return cutRod(price, n, dp);
-    }
-    
-    public int cutRod(int[] price, int n, int[] dp){
-        if(n == 0) return 0;
         
-        int max = 0;
         for(int i = 1; i <= n; i++){
-            int res = price[i-1] + (dp[n-i] == -1 ? cutRod(price, n-1, dp) : dp[n-i]);
-            max = Math.max(res, max);
+            for(int j = 0; j < i; j++){
+                if(dp[j] + price[i - j - 1] > dp[i]){
+                    dp[i] = dp[j] + price[i-j-1];
+                }
+            }
         }
         
-        return dp[n] = max;
+        int max = 0;
+        for(int i : dp) {
+            if(i > max) max = i;
+        }
+        
+        return max;
     }
+    
 }
