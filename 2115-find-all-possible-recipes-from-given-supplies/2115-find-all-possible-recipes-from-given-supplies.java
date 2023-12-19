@@ -10,13 +10,9 @@ class Solution {
         }
         
         HashMap<String, Integer> inDegree = new HashMap<>();
-        for(Map.Entry<String, HashSet<String>> entry : adj.entrySet()){
-            for(String s : entry.getValue()){
-                inDegree.put(s, inDegree.getOrDefault(s, 0) + 1);
-            }
-        }
-        
-        
+       for(int i = 0; i < recipes.length; i++){
+           inDegree.put(recipes[i], ingredients.get(i).size());
+       }
                     
         HashSet<String> visited = new HashSet<>();
         Queue<String> q = new LinkedList<>();
