@@ -7,7 +7,7 @@ class Solution {
                 int valid = 0;
                 for(int x = -1; x < 2; x++){
                     for(int y = -1; y < 2; y++){
-                        if(isValid(i + x, j + y, img.length, img[0].length)){
+                        if((i + x) >= 0 && (i + x) < img.length && (j + y) >= 0 && (j + y) < img[0].length){
                             res[i][j] += img[i + x][j + y];
                             valid++;
                         }
@@ -21,7 +21,4 @@ class Solution {
         return res;
     }
     
-    private boolean isValid(int i, int j, int m, int n){
-        return i >=0 && j >= 0 && i < m && j < n;
-    }
 }
